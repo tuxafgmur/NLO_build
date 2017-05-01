@@ -605,7 +605,13 @@ function lunch()
 
     export TARGET_BUILD_APPS=
 
-    local variant=$(echo -n $selection | sed -e "s/^[^\-]*-//")
+    local variant=
+    if [ -z "$USER_BUILD_VARIANT" ]; then 
+        variant=$(echo -n $selection | sed -e "s/^[^\-]*-//")
+    else
+        variant=$USER_BUILD_VARIANT
+    fi
+
     check_variant $variant
     if [ $? -ne 0 ]
     then
