@@ -144,7 +144,7 @@ def main(argv):
           recovery_image.AddToZip(output_zip)
 
       def banner(s):
-        print "\n\n++++ " + s + " ++++\n\n"
+        print "\n---- " + s + " ----\n"
 
       if not bootable_only:
         banner("AddSystem")

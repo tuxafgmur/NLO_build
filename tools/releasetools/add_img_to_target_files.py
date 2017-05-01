@@ -416,7 +416,7 @@ def AddImagesToTargetFiles(filename):
   use_two_step_recovery = (OPTIONS.info_dict.get("no_two_step_recovery") != "true")
 
   def banner(s):
-    print "\n\n++++ " + s + " ++++\n\n"
+    print "\n---- " + s + " ----\n"
 
   banner("boot")
   prebuilt_path = os.path.join(OPTIONS.input_tmp, "IMAGES", "boot.img")
