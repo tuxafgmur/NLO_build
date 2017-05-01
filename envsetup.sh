@@ -1608,6 +1608,7 @@ function mk_timer()
     fi
     echo
     if [ $ret -eq 0 ] ; then
+        build/tools/custom_end_build.sh $ANDROID_PRODUCT_OUT
         echo -n "${color_success}#### build completed successfully "
     else
         echo -n "${color_failed}**** FAILED to build some targets "
