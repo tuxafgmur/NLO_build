@@ -71,18 +71,26 @@ endef
 
 $(combo_2nd_arch_prefix)TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
+ifeq ($(strip $(OPTIMIZED_ARM_CFLAGS)),)
 $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := -O2 \
                         -fomit-frame-pointer \
                         -fstrict-aliasing \
                         -funswitch-loops \
                         -w
+else
+$(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := $(OPTIMIZED_ARM_CFLAGS)
+endif
 
 # Modules can choose to compile some source as thumb.
+ifeq ($(strip $(OPTIMIZED_THUMB_CFLAGS)),)
 $(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -O2 \
 			-mthumb \
                         -fomit-frame-pointer \
                         -fno-strict-aliasing \
                         -w
+else
+$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := $(OPTIMIZED_THUMB_CFLAGS)
+endif
 
 # Set FORCE_ARM_DEBUGGING to "true" in your buildspec.mk
 # or in your environment to force a full arm build, even for
