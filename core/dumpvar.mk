@@ -5,15 +5,27 @@ print_build_config_vars := \
   PLATFORM_VERSION \
   LINEAGE_VERSION \
   TARGET_PRODUCT \
-  TARGET_BUILD_VARIANT \
   TARGET_BUILD_TYPE \
-  TARGET_BUILD_APPS \
+  TARGET_BUILD_VARIANT
+  
+ifneq ($(TARGET_BUILD_APPS),)
+  print_build_config_vars += \
+    TARGET_BUILD_APPS
+endif
+
+print_build_config_vars += \
   TARGET_ARCH \
   TARGET_ARCH_VARIANT \
-  TARGET_CPU_VARIANT \
-  TARGET_2ND_ARCH \
-  TARGET_2ND_ARCH_VARIANT \
-  TARGET_2ND_CPU_VARIANT \
+  TARGET_CPU_VARIANT
+
+ifneq ($(TARGET_2ND_ARCH),)
+  print_build_config_vars += \
+    TARGET_2ND_ARCH \
+    TARGET_2ND_ARCH_VARIANT \
+    TARGET_2ND_CPU_VARIANT
+endif
+
+print_build_config_vars += \
   HOST_ARCH \
   HOST_2ND_ARCH \
   HOST_OS \
@@ -21,28 +33,41 @@ print_build_config_vars := \
   HOST_CROSS_OS \
   HOST_CROSS_ARCH \
   HOST_CROSS_2ND_ARCH \
-  HOST_BUILD_TYPE \
-  BUILD_ID \
-  OUT_DIR
+  HOST_BUILD_TYPE
+
+ifeq ($(WITH_DEXPREOPT),true)
+  print_build_config_vars += \
+    WITH_DEXPREOPT 
+  ifeq ($(WITH_DEXPREOPT),true)
+    print_build_config_vars += \
+      DONT_DEXPREOPT_PREBUILTS  
+  endif
+endif
 
 ifneq ($(RECOVERY_VARIANT),)
-print_build_config_vars += \
-  RECOVERY_VARIANT
+  print_build_config_vars += \
+    RECOVERY_VARIANT
 endif
+
 ifeq ($(WITH_SU),true)
-print_build_config_vars += \
-  WITH_SU
+  print_build_config_vars += \
+    WITH_SU
 endif
+
 ifeq ($(WITH_GMS),true)
-print_build_config_vars += \
-  WITH_GMS
+  print_build_config_vars += \
+    WITH_GMS
 endif
 
 ifeq ($(TARGET_BUILD_PDK),true)
-print_build_config_vars += \
-  TARGET_BUILD_PDK \
-  PDK_FUSION_PLATFORM_ZIP
+  print_build_config_vars += \
+    TARGET_BUILD_PDK \
+    PDK_FUSION_PLATFORM_ZIP
 endif
+
+print_build_config_vars += \
+  BUILD_ID \
+  OUT_DIR
 
 # ---------------------------------------------------------------
 # the setpath shell function in envsetup.sh uses this to figure out
@@ -133,5 +158,16 @@ ifneq ($(PRINT_BUILD_CONFIG),)
 $(info ============================================)
 $(foreach v, $(print_build_config_vars),\
   $(info $v=$($(v))))
+ifeq ($(BLOCK_BASED_OTA),false)
+  $(info BLOCK_BASED_OTA=false)
+endif
+ifdef BUILDING_OTA
+  ifneq ($(BUILDING_OTA),false)
+    $(info BUILDING_OTA=true)
+    $(info DELETE_RECOVERY=$(DELETE_RECOVERY))
+  else
+    $(info BUILDING_OTA=false)
+  endif
+endif
 $(info ============================================)
 endif
