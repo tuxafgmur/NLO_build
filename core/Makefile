@@ -514,6 +514,8 @@ BUILT_RAMDISK_TARGET := $(PRODUCT_OUT)/ramdisk.img
 # We just build this directly to the install location.
 INSTALLED_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET)
 $(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) $(INTERNAL_RAMDISK_FILES) | $(MINIGZIP)
+	@echo "Custom boot files..."
+	$(hide) $(TARGET_DEVICE_DIR)/custom_boot.sh $(TARGET_DEVICE_DIR) $(TARGET_ROOT_OUT)
 	$(call pretty,"Target ram disk: $@")
 	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(BOOT_RAMDISK_COMPRESSOR) > $@
 
@@ -1087,6 +1089,8 @@ define build-recoveryramdisk
   $(hide) cp $(RECOVERY_INSTALL_OTA_KEYS) $(TARGET_RECOVERY_ROOT_OUT)/res/keys
   $(hide) cat $(INSTALLED_DEFAULT_PROP_TARGET) $(recovery_build_prop) \
           > $(TARGET_RECOVERY_ROOT_OUT)/default.prop
+  @echo "Custom recovery files..."
+  $(hide) $(TARGET_DEVICE_DIR)/custom_recovery.sh $(TARGET_RECOVERY_OUT)          
   $(BOARD_RECOVERY_IMAGE_PREPARE)
   $(if $(filter true,$(BOARD_BUILD_SYSTEM_ROOT_IMAGE)), \
     $(hide) mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/system_root; \
@@ -1297,6 +1301,8 @@ endif
 define build-systemimage-target
   @echo "Target system fs image: $(1)"
   $(call create-system-vendor-symlink)
+  @echo "Custom rom files..."
+  $(hide) $(TARGET_DEVICE_DIR)/custom_rom.sh $(TARGET_OUT)  
   @mkdir -p $(dir $(1)) $(systemimage_intermediates) && rm -rf $(systemimage_intermediates)/system_image_info.txt
   $(call generate-userimage-prop-dictionary, $(systemimage_intermediates)/system_image_info.txt, \
       skip_fsck=true)
