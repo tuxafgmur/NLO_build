@@ -29,7 +29,7 @@ CLANG_CONFIG_EXTRA_CPPFLAGS :=
 CLANG_CONFIG_EXTRA_LDFLAGS :=
 
 CLANG_CONFIG_EXTRA_CFLAGS += \
-  -D__compiler_offsetof=__builtin_offsetof
+  -D__compiler_offsetof=__builtin_offsetof -Qunused-arguments -Wno-unknown-warning-option
 
 # Help catch common 32/64-bit errors.
 CLANG_CONFIG_EXTRA_CFLAGS += \
@@ -54,7 +54,7 @@ CLANG_CONFIG_EXTRA_CFLAGS += \
 # Disable -Winconsistent-missing-override until we can clean up the existing
 # codebase for it.
 CLANG_CONFIG_EXTRA_CPPFLAGS += \
-  -Wno-inconsistent-missing-override
+  -Wno-inconsistent-missing-override -Qunused-arguments -Wno-unknown-warning-option
 
 # Force clang to always output color diagnostics.  Ninja will strip the ANSI
 # color codes if it is not running in a terminal.
@@ -72,6 +72,7 @@ CLANG_CONFIG_UNKNOWN_CFLAGS := \
   -fno-tree-sra \
   -fprefetch-loop-arrays \
   -funswitch-loops \
+  -funsafe-loop-optimizations \
   -Werror=unused-but-set-parameter \
   -Werror=unused-but-set-variable \
   -Wmaybe-uninitialized \
