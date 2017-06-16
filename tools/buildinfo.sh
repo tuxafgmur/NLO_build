@@ -44,7 +44,7 @@ fi
 echo "ro.product.cpu.abilist=$TARGET_CPU_ABI_LIST"
 echo "ro.product.cpu.abilist32=$TARGET_CPU_ABI_LIST_32_BIT"
 echo "ro.product.cpu.abilist64=$TARGET_CPU_ABI_LIST_64_BIT"
-if [ -n "$PRODUCT_DEFAULT_LOCALE" ] && [ -z "$TARGET_SKIP_DEFAULT_LOCALE" ] ; then
+if [ -n "$PRODUCT_DEFAULT_LOCALE" ] ; then
   echo "ro.product.locale=$PRODUCT_DEFAULT_LOCALE"
 fi
 echo "ro.product.manufacturer=$PRODUCT_MANUFACTURER"
