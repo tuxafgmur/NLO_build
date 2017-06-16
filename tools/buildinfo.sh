@@ -32,9 +32,7 @@ if [ "$TARGET_UNIFIED_DEVICE" == "" ] ; then
     echo "ro.build.thumbprint=$BUILD_THUMBPRINT"
   fi
   echo "ro.product.device=$TARGET_DEVICE"
-  if [ -z "$TARGET_SKIP_PRODUCT_DEVICE" ] ; then
-    echo "ro.product.model=$PRODUCT_MODEL"
-  fi
+  echo "ro.product.model=$PRODUCT_MODEL"
 fi
 echo "ro.product.brand=$PRODUCT_BRAND"
 echo "ro.product.name=$PRODUCT_NAME"
